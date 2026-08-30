@@ -1,17 +1,17 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class Enemy : MonoBehaviour
 {
-    private DeathType _deathType;
+    [SerializeField] private bool _isDead;
 
-    public void Initialize(DeathType deathType)
-    {
-        _deathType = deathType;
-    }
+    public bool IsDead => _isDead;
 
-    private void Kill()
+    
+
+    public void Kill(float destroyTime = 0)
     {
         Destroy(gameObject);
     }

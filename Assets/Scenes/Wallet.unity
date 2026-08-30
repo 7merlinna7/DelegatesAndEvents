@@ -499,11 +499,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ff0189ddd9130e9478e40d7ea94bcde5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _coinsWalletUiPrefab: {fileID: 2254963315726946523, guid: a00de919827d58d429c911226670e646,
+  _coinsWalletUiPrefab: {fileID: 3083203052790599576, guid: a00de919827d58d429c911226670e646,
     type: 3}
-  _diamondsWalletUiPrefab: {fileID: 3953500856104594987, guid: 3d6d724c012c59846a4a444a44ac5bf1,
+  _diamondsWalletUiPrefab: {fileID: 98488608176934196, guid: 3d6d724c012c59846a4a444a44ac5bf1,
     type: 3}
-  _energyWalletUiPrefab: {fileID: 5919654170157159336, guid: 8aa55fd915ba1d146850317af30b80f2,
+  _energyWalletUiPrefab: {fileID: 3247564979416268750, guid: 8aa55fd915ba1d146850317af30b80f2,
     type: 3}
   _uiCanvas: {fileID: 183688158}
 --- !u!1 &1714917139

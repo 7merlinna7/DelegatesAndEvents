@@ -5,33 +5,33 @@ using UnityEngine;
 public class EnemySpawner : MonoBehaviour
 {
     [SerializeField] Enemy _enemyPrefab;
-    private List<Enemy> _enemies;
+    [SerializeField] private Vector2 _spawnPositionLimit;
+    [SerializeField] private float _timeToDestroy;
+    [SerializeField] private int _maxEnemiesLimit;
+
+    private EnemyDestroyer _enemyDestroyer;
+
+    private Dictionary<DeathType,Enemy> _enemies;
 
     private void Awake()
     {
-        _enemies = new List<Enemy>();
+       // _enemyDestroyer
+        
     }
+
     private void Update()
     {
         if (Input.GetKeyDown(KeyCode.Alpha1))
         {
-            Enemy _enemy = Instantiate(_enemyPrefab, Vector3.zero, Quaternion.identity);
-            _enemy.Initialize(DeathType.Boolean);
-            _enemies.Add(_enemy);
+            Enemy _enemy = Instantiate(_enemyPrefab, _spawnPositionLimit, Quaternion.identity);
+            
         }
+    }
 
-        if (Input.GetKeyDown(KeyCode.Alpha2))
-        {
-            Enemy _enemy = Instantiate(_enemyPrefab, Vector3.zero, Quaternion.identity);
-            _enemy.Initialize(DeathType.OutOfTime);
-            _enemies.Add(_enemy);
-        }
+    private void SpawnEnemy()
+    {
 
-        if (Input.GetKeyDown(KeyCode.Alpha3))
-        {
-            Enemy _enemy = Instantiate(_enemyPrefab, Vector3.zero, Quaternion.identity);
-            _enemy.Initialize(DeathType.OutOfEnemies);
-            _enemies.Add(_enemy);
-        }
+        Enemy _enemy = Instantiate(_enemyPrefab, _spawnPositionLimit, Quaternion.identity);
+
     }
 }

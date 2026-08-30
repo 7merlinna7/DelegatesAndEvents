@@ -1,16 +1,30 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class EnemyDestroyer : MonoBehaviour
+public class EnemyDestroyer : MonoBehaviour 
 {
-    [SerializeField] private float _timeToDestroy;
+    public event Action<DeathType, Enemy> EnemySpawned;
 
-    private List<Enemy> _enemies;
+    private float _timeToDestroy;
 
-    private void Update()
+    public void Awake()
     {
-        
+        EnemySpawned += DestroyEnemy;
     }
 
+    public void Stop()
+    {
+        EnemySpawned -= DestroyEnemy;
+    }
+
+    // корутина вейт антил для условия удаления,  корутинранер - спавнер
+    // монобех или нет? DA
+    private void DestroyEnemy(DeathType deathType,Enemy enemy)
+    {
+        if (deathType == DeathType.OutOfTime)
+            enemy.Kill(_timeToDestroy);
+
+    }
 }
