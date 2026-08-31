@@ -32,10 +32,7 @@ public class WalletView : MonoBehaviour
         }
     }
 
-    private void OnDestroy()
-    {
-        _wallet.BalanceUpdated -= UpdateBalance;
-    }
+    private void OnDestroy() => _wallet.BalanceUpdated -= UpdateBalance;
 
     private void UpdateBalance(int value,CurrencyType currencyType)
     {
@@ -50,7 +47,6 @@ public class WalletView : MonoBehaviour
     {
         _currentCurrencyGameObject = Instantiate(currencyPrefab, _uiCanvas.transform);
         _walletBalance.Add(_currentCurrencyGameObject.GetComponent<CurrencyView>());
-        
     }
 
     private void InitializeCurrencyView()

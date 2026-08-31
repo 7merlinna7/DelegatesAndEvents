@@ -15,10 +15,7 @@ public class WalletInput : MonoBehaviour
         remove => _wallet.BalanceUpdated -= value;
     }
 
-    private void Awake()
-    {
-        _wallet = new Wallet();
-    }
+    private void Awake() => _wallet = new Wallet();
 
     private void Update()
     {

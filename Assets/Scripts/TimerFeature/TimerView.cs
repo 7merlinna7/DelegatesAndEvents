@@ -11,6 +11,7 @@ public class TimerView : MonoBehaviour
 
     private GameObject _timerView;
     private Slider _timerSlider;
+    private TimerInput _timerInput;
     private Timer _timer;
     private int _maxTime;
     private List<Image> _hearts;
@@ -19,10 +20,10 @@ public class TimerView : MonoBehaviour
 
     private void Awake()
     {
-        if (GetComponentInParent<Timer>() != null)
+        if (GetComponentInParent<TimerInput>() != null)
         {
-
-            _timer = GetComponentInParent<Timer>();
+            _timerInput = GetComponentInParent<TimerInput>();
+            _timer = _timerInput.Timer;
             _maxTime = (int)_timer.MaxTime;
 
             SpawnSlider();
@@ -42,10 +43,7 @@ public class TimerView : MonoBehaviour
         _timer.TimerRestarted -= Restarthearts;
     }
 
-    private void UpdateSlider(float time)
-    {
-        _timerSlider.value = time/_maxTime;
-    }
+    private void UpdateSlider(float time) => _timerSlider.value = time/_maxTime;
 
     private void UpdateHearts(float time)
     {

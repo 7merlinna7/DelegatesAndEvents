@@ -1,12 +1,11 @@
 using System;
-using UnityEngine;
 
-public class Timer : MonoBehaviour
+public class Timer 
 {
     public event Action<float> TimerUpdated;
     public event Action TimerRestarted;
 
-    [SerializeField] private float _maxTime;
+    private float _maxTime;
     private float _currentTime;
     private bool _isRunning;
 
@@ -21,40 +20,31 @@ public class Timer : MonoBehaviour
         }
     }
 
-    private void Awake()
+    public Timer(float maxTime)
     {
-        CurrentTime = _maxTime;
+        _maxTime = maxTime;
+        _currentTime = maxTime;
     }
 
-    private void Update()
+    public void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Alpha1))
-            StartTimer();
-
-        if (Input.GetKeyDown(KeyCode.Alpha2) || (CurrentTime < 0))
-            StopTimer();
-
-        if (Input.GetKeyDown(KeyCode.Alpha3))
-            RestartTimer();
-
         if (_isRunning)
             CurrentTime -= UnityEngine.Time.deltaTime;
-
     }
 
-    private void StartTimer()
+    public void StartTimer()
     {
         if (_isRunning == false)
             _isRunning = true;
     }
 
-    private void StopTimer()
+    public void StopTimer()
     {
         if (_isRunning)
             _isRunning = false;
     }
 
-    private void RestartTimer()
+    public void RestartTimer()
     {
         CurrentTime = _maxTime;
         _isRunning = false;
