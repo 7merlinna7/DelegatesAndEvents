@@ -9,27 +9,22 @@ public class WalletView : MonoBehaviour
     [SerializeField] private CurrencyView _energyWalletUiPrefab;
     [SerializeField] private GameObject _uiCanvas;
 
-    private WalletInput _wallet;
+    private Wallet _wallet;
     private List<CurrencyView> _walletBalance;
     private Object _currentCurrencyGameObject;
 
-    
-    private void Awake()
+    public void Initialize(Wallet wallet)
     {
-        if (GetComponentInParent<WalletInput>() != null)
-        {
-            _wallet = GetComponentInParent<WalletInput>();
+        _wallet = wallet;
 
-            _walletBalance = new List<CurrencyView>(); 
+        _walletBalance = new List<CurrencyView>(); 
+        InstantiateCurrencyView(_coinsWalletUiPrefab.gameObject);
+        InstantiateCurrencyView(_diamondsWalletUiPrefab.gameObject);
+        InstantiateCurrencyView(_energyWalletUiPrefab.gameObject);
 
-            InstantiateCurrencyView(_coinsWalletUiPrefab.gameObject);
-            InstantiateCurrencyView(_diamondsWalletUiPrefab.gameObject);
-            InstantiateCurrencyView(_energyWalletUiPrefab.gameObject);
+        InitializeCurrencyView();
 
-            InitializeCurrencyView();
-
-            _wallet.BalanceUpdated += UpdateBalance;
-        }
+        _wallet.BalanceUpdated += UpdateBalance;
     }
 
     private void OnDestroy() => _wallet.BalanceUpdated -= UpdateBalance;

@@ -624,8 +624,7 @@ Transform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children:
-  - {fileID: 2065908974}
+  m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1770618658
@@ -641,6 +640,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _maxtime: 5
+  _slider: {fileID: 2065908976}
+  _hearts: {fileID: 2065908975}
 --- !u!1 &2065908973
 GameObject:
   m_ObjectHideFlags: 0
@@ -651,6 +652,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2065908974}
   - component: {fileID: 2065908975}
+  - component: {fileID: 2065908976}
   m_Layer: 0
   m_Name: TimerView
   m_TagString: Untagged
@@ -666,12 +668,12 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2065908973}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 1770618657}
+  m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &2065908975
 MonoBehaviour:
@@ -686,11 +688,24 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _uiCanvas: {fileID: 76536052}
-  _timerViewUiPrefab: {fileID: 2674853259806506746, guid: 6db0bd62608400b4094f037c5e038483,
-    type: 3}
   _heartTimerPrefab: {fileID: 9136954901328546878, guid: 08df2a6a253d61a449c282d08c993c3b,
     type: 3}
   _heartXOffset: 100
+--- !u!114 &2065908976
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2065908973}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5ebfea7bd558a394d8f9092295120f57, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _timerSliderPrefab: {fileID: 2674853259806506746, guid: 6db0bd62608400b4094f037c5e038483,
+    type: 3}
+  _uiCanvas: {fileID: 76536052}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
@@ -701,3 +716,4 @@ SceneRoots:
   - {fileID: 911044306}
   - {fileID: 76536056}
   - {fileID: 1770618657}
+  - {fileID: 2065908974}

@@ -1,22 +1,17 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class WalletInput : MonoBehaviour
 {
     [SerializeField] private int _currencyCount;
+    [SerializeField] private WalletView _walletView;
 
     private Wallet _wallet;
 
-    public event Action<int, CurrencyType> BalanceUpdated
+    private void Awake()
     {
-        add => _wallet.BalanceUpdated += value;
-        remove => _wallet.BalanceUpdated -= value;
+        _wallet = new Wallet();
+        _walletView.Initialize(_wallet);
     }
-
-    private void Awake() => _wallet = new Wallet();
-
     private void Update()
     {
         if (Input.GetKeyDown(KeyCode.Alpha1))

@@ -1,64 +1,37 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class EnemyDestroyer : MonoBehaviour 
 {
-    public event Action<int> EnemiesUpdated;
+    private Dictionary<Enemy,Func<bool>> _enemiesDeathConditions = new Dictionary<Enemy, Func<bool>>();
+    private List<Enemy> _enemiesToRemove = new List<Enemy>();
+    public int EnemyCount => _enemiesDeathConditions.Count;
 
-    [SerializeField] private float _timeToDestroy;
-    [SerializeField] private int _enemiesToDestroy;
+    public void RegisterEnemy(Enemy enemy, Func<bool> condition) => _enemiesDeathConditions[enemy] = condition;
 
-    private List<Enemy> _enemies;
-    private EnemySpawner _enemySpawner;
-
-    public void Awake()
+    private void Update()
     {
-        _enemySpawner = GetComponentInParent<EnemySpawner>();
-        _enemySpawner.EnemySpawned += ChooseEnemyDestroyer;
+        if (_enemiesDeathConditions != null)
+        {
+            foreach (var enemy in _enemiesDeathConditions)
+            {
+                if (enemy.Value() == true)
+                    _enemiesToRemove.Add(enemy.Key);
+            }
+        }
 
-        _enemies = new List<Enemy>();
-    }
-    private void OnDestroy() => _enemySpawner.EnemySpawned -= ChooseEnemyDestroyer;
-     
-    private void Update() => Debug.Log(_enemies.Count);
+        foreach (var enemy in _enemiesToRemove)
+            Destroy(enemy);
+        
+        _enemiesToRemove.Clear();
 
-    private void ChooseEnemyDestroyer(DeathType deathType,Enemy enemy)
-    {
-        _enemies.Add(enemy);
-        EnemiesUpdated?.Invoke(_enemies.Count);
-
-        if (deathType == DeathType.Boolean)
-        StartCoroutine(DestroyBoolean(enemy));
-        else if (deathType ==DeathType.OutOfTime)
-            StartCoroutine(DestroyOutOfTime(enemy));
-        else if (deathType == DeathType.OutOfEnemies)
-            StartCoroutine(DestroyOutOfEnemies(enemy));
-    }
-
-    private IEnumerator DestroyBoolean(Enemy enemy)
-    {
-        yield return new WaitUntil(() => enemy.IsDead == true);
-        Destroy(enemy);
-    }
-
-    private IEnumerator DestroyOutOfTime(Enemy enemy)
-    {
-        yield return new WaitForSeconds(_timeToDestroy);
-        Destroy(enemy);
-    }
-
-    private IEnumerator DestroyOutOfEnemies(Enemy enemy)
-    {
-        yield return new WaitUntil(() => _enemies.Count > _enemiesToDestroy);
-        Destroy(enemy);
+        Debug.Log(_enemiesDeathConditions.Count);
     }
 
     private void Destroy(Enemy enemy)
     {
-        _enemies.Remove(enemy);
+        _enemiesDeathConditions.Remove(enemy);
         Destroy(enemy.gameObject);
-        EnemiesUpdated?.Invoke(_enemies.Count);
     }
 }

@@ -1,17 +1,18 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
-public class TimerInput : MonoBehaviour
+public class TimerBootstrap : MonoBehaviour
 {
     [SerializeField] private float _maxtime;
+    [SerializeField] private TimerViewSlider _slider;
+    [SerializeField] private TimerViewHearts _hearts;
     private Timer _timer;
-
-    public Timer Timer => _timer;
 
     private void Awake()
     {
         _timer = new Timer(_maxtime);
+
+        _hearts.Initialize(_timer);
+        _slider.Initialize(_timer);
     }
 
     private void Update()
