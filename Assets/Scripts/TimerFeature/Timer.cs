@@ -2,34 +2,25 @@ using System;
 
 public class Timer 
 {
-    public event Action<float> TimerUpdated;
     public event Action TimerRestarted;
 
-    private float _maxTime;
-    private float _currentTime;
+    private ReactiveVariable<float> _maxTime;
+    private ReactiveVariable<float> _currentTime;
     private bool _isRunning;
 
-    public float MaxTime => _maxTime;
-    public float CurrentTime
-    {
-        get => _currentTime;
-        private set
-        {
-            _currentTime = value;
-            TimerUpdated?.Invoke(CurrentTime);
-        }
-    }
+    public IReadonlyVariable<float> MaxTime => _maxTime;
+    public IReadonlyVariable<float> CurrentTime => _currentTime;
 
     public Timer(float maxTime)
     {
-        _maxTime = maxTime;
-        _currentTime = maxTime;
+        _maxTime = new ReactiveVariable<float>(maxTime);
+        _currentTime = new ReactiveVariable<float>(maxTime);
     }
 
     public void Update()
     {
         if (_isRunning)
-            CurrentTime -= UnityEngine.Time.deltaTime;
+            _currentTime.Value -= UnityEngine.Time.deltaTime;
     }
 
     public void StartTimer()
@@ -46,7 +37,7 @@ public class Timer
 
     public void RestartTimer()
     {
-        CurrentTime = _maxTime;
+        _currentTime.Value = _maxTime.Value;
         _isRunning = false;
         TimerRestarted?.Invoke();
     }

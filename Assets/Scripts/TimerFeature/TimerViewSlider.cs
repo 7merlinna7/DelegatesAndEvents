@@ -7,21 +7,23 @@ public class TimerViewSlider : MonoBehaviour
     [SerializeField] GameObject _uiCanvas;
 
     private Slider _timerSlider;
-    private float _maxTime;
+    private IReadonlyVariable<float> _currentTime;
+    private IReadonlyVariable<float> _maxTime;
+
     private GameObject _timerView;
     private Timer _timer;
 
     public void Initialize(Timer timer)
     {
         _timer = timer;
-        _timer.TimerUpdated += UpdateSlider;
         _maxTime = _timer.MaxTime;
 
+        _timer.CurrentTime.Changed += UpdateSlider;
+
         SpawnSlider();
-        UpdateSlider(_maxTime);
     }
 
-    private void UpdateSlider(float time) => _timerSlider.value = time / _maxTime;
+    private void UpdateSlider(float oldTime,float currentTime) => _timerSlider.value = currentTime / _maxTime.Value;
 
     private void SpawnSlider()
     {

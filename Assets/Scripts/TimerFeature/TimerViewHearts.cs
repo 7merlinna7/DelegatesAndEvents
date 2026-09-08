@@ -8,7 +8,9 @@ public class TimerViewHearts : MonoBehaviour
     [SerializeField] Image _heartTimerPrefab;
     [SerializeField] private int _heartXOffset;
 
-    private float _maxTime;
+    private IReadonlyVariable<float> _currentTime;
+    private IReadonlyVariable<float> _maxTime;
+
     private Timer _timer;
     private List<Image> _hearts;
     private int _heartsCount = 0;
@@ -17,7 +19,8 @@ public class TimerViewHearts : MonoBehaviour
     public void Initialize(Timer timer)
     {
         _timer = timer;
-        _timer.TimerUpdated += UpdateHearts;
+
+        _timer.CurrentTime.Changed += UpdateHearts;
         _timer.TimerRestarted += RestartHearts;
         _maxTime = _timer.MaxTime;
 
@@ -26,13 +29,13 @@ public class TimerViewHearts : MonoBehaviour
 
     private void OnDestroy()
     {
-        _timer.TimerUpdated -= UpdateHearts;
+        _timer.CurrentTime.Changed -= UpdateHearts;
         _timer.TimerRestarted -= RestartHearts;
     }
 
-    private void UpdateHearts(float time)
+    private void UpdateHearts(float oldTime, float currentTime)
     {
-        if (_hearts.Count - time > 1f)
+        if (_hearts.Count - currentTime > 1f)
         {
             Destroy(_hearts[_hearts.Count-1].gameObject);
             _hearts.RemoveAt(_hearts.Count-1);
@@ -51,7 +54,7 @@ public class TimerViewHearts : MonoBehaviour
     private void SpawnHearts()
     {
         _hearts = new List<Image>();
-        while (_heartsCount < _maxTime)
+        while (_heartsCount < _maxTime.Value)
         {
             _hearts.Add(Instantiate(_heartTimerPrefab, _uiCanvas.transform));
             _hearts[_heartsCount].rectTransform.anchoredPosition = new Vector2(_heartPosition.x + _heartsCount * _heartXOffset, _heartPosition.y);

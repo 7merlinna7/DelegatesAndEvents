@@ -9,44 +9,20 @@ public class WalletView : MonoBehaviour
     [SerializeField] private CurrencyView _energyWalletUiPrefab;
     [SerializeField] private GameObject _uiCanvas;
 
-    private Wallet _wallet;
-    private List<CurrencyView> _walletBalance;
     private Object _currentCurrencyGameObject;
+    private CurrencyView _currentCurrency;
 
-    public void Initialize(Wallet wallet)
+    public void Initialize(IReadonlyVariable<int> coins, IReadonlyVariable<int> diamonds, IReadonlyVariable<int> energy)
     {
-        _wallet = wallet;
-
-        _walletBalance = new List<CurrencyView>(); 
-        InstantiateCurrencyView(_coinsWalletUiPrefab.gameObject);
-        InstantiateCurrencyView(_diamondsWalletUiPrefab.gameObject);
-        InstantiateCurrencyView(_energyWalletUiPrefab.gameObject);
-
-        InitializeCurrencyView();
-
-        _wallet.BalanceUpdated += UpdateBalance;
+        InstantiateCurrencyView(_coinsWalletUiPrefab.gameObject,coins);
+        InstantiateCurrencyView(_diamondsWalletUiPrefab.gameObject,diamonds);
+        InstantiateCurrencyView(_energyWalletUiPrefab.gameObject,energy);
     }
 
-    private void OnDestroy() => _wallet.BalanceUpdated -= UpdateBalance;
-
-    private void UpdateBalance(int value,CurrencyType currencyType)
-    {
-        foreach (CurrencyView currencyView in _walletBalance)
-        {
-            if(currencyView.CurrencyType == currencyType)
-                currencyView.UpdateText(value);
-        }
-    }
-
-    private void InstantiateCurrencyView(GameObject currencyPrefab)
+    private void InstantiateCurrencyView(GameObject currencyPrefab, IReadonlyVariable<int> reactiveCurrency)
     {
         _currentCurrencyGameObject = Instantiate(currencyPrefab, _uiCanvas.transform);
-        _walletBalance.Add(_currentCurrencyGameObject.GetComponent<CurrencyView>());
-    }
-
-    private void InitializeCurrencyView()
-    {
-        foreach (CurrencyView currencyView in _walletBalance)
-            currencyView.Initialize();
+        _currentCurrency = _currentCurrencyGameObject.GetComponent<CurrencyView>();
+        _currentCurrency.Initialize(reactiveCurrency);
     }
 }

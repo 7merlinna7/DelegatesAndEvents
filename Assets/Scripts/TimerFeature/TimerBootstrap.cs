@@ -20,12 +20,13 @@ public class TimerBootstrap : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Alpha1))
             _timer.StartTimer();
 
-        if (Input.GetKeyDown(KeyCode.Alpha2) || (_timer.CurrentTime < 0))
+        if (Input.GetKeyDown(KeyCode.Alpha2) || (_timer.CurrentTime.Value < 0))
             _timer.StopTimer();
 
         if (Input.GetKeyDown(KeyCode.Alpha3))
             _timer.RestartTimer();
 
         _timer.Update();
+        Debug.Log(_timer.CurrentTime.Value);
     }
 }

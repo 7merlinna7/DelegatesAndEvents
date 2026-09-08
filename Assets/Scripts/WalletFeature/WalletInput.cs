@@ -10,7 +10,7 @@ public class WalletInput : MonoBehaviour
     private void Awake()
     {
         _wallet = new Wallet();
-        _walletView.Initialize(_wallet);
+        _walletView.Initialize(_wallet.Coins,_wallet.Diamonds,_wallet.Energy);
     }
     private void Update()
     {
