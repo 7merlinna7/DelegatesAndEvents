@@ -11,5 +11,12 @@ namespace RPGEnemy
         public int Health { get => _health;}
         public float Mana { get => _mana;}
 
+        public void BaseConfig(float damage, int health, float mana)
+        {
+            _damage = damage;
+            _health = health;
+            _mana = mana;
+        }
+
     }
 }
