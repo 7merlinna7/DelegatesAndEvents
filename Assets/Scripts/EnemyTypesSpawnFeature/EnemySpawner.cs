@@ -11,8 +11,6 @@ namespace RPGEnemy
         [SerializeField] private List<Transform> _spawnpoints;
 
         private Queue<Vector3> _spawnPointsQueue;
-        private GameObject _currentEnemyGameObject;
-        private Enemy _currentEnemy;
         private EnemySettings.EnemyConfig _enemyConfig;
 
         private void Awake()
@@ -30,20 +28,38 @@ namespace RPGEnemy
                 if (_enemyConfig == null)
                     break;
 
-                if (enemyType == EnemyType.Elf)
-                    Spawn(_elfPrefab, _enemyConfig,_spawnPointsQueue.Dequeue());
-                else if (enemyType == EnemyType.Ork)
-                    Spawn(_orkPrefab, _enemyConfig, _spawnPointsQueue.Dequeue());
-                else if (enemyType == EnemyType.Dragon)
-                    Spawn(_dragonPrefab, _enemyConfig, _spawnPointsQueue.Dequeue());
+                switch (_enemyConfig.Type)
+                {
+                    case EnemyType.Elf:
+                        SpawnElf(_elfPrefab, _enemyConfig, _spawnPointsQueue.Dequeue());
+                        break;
+
+                    case EnemyType.Dragon:
+                        SpawnDragon(_dragonPrefab, _enemyConfig, _spawnPointsQueue.Dequeue());
+                        break;
+
+                    case EnemyType.Ork:
+                        SpawnOrk(_orkPrefab, _enemyConfig, _spawnPointsQueue.Dequeue());
+                        break;
+                }
             }
         }
 
-        private void Spawn(Enemy enemyPrefab,EnemySettings.EnemyConfig enemyConfig,Vector3 spawnPoint)
+        private void SpawnElf(Elf elfPrefab, EnemySettings.EnemyConfig enemyConfig,Vector3 spawnPoint)
         {
-            _currentEnemyGameObject = Instantiate(enemyPrefab.gameObject, spawnPoint, Quaternion.identity);
-            _currentEnemy =_currentEnemyGameObject.GetComponent<Enemy>();
-            _currentEnemy.Initialize(enemyConfig.Damage,enemyConfig.Health,enemyConfig.Mana);
+            Elf elf = Instantiate(elfPrefab, spawnPoint, Quaternion.identity);
+            elf.Initialize(enemyConfig.Damage,enemyConfig.Health,enemyConfig.Mana);
+        }
+
+        private void SpawnOrk(Ork orkPrefab, EnemySettings.EnemyConfig enemyConfig, Vector3 spawnPoint)
+        {
+            Ork ork = Instantiate(orkPrefab, spawnPoint, Quaternion.identity);
+            ork.Initialize(enemyConfig.Damage, enemyConfig.Health, enemyConfig.Mana);
+        }
+        private void SpawnDragon(Dragon dragonPrefab, EnemySettings.EnemyConfig enemyConfig, Vector3 spawnPoint)
+        {
+            Dragon dragon = Instantiate(dragonPrefab, spawnPoint, Quaternion.identity);
+            dragon.Initialize(enemyConfig.Damage, enemyConfig.Health, enemyConfig.Mana);
         }
     }
 }
